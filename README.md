@@ -7,7 +7,7 @@ ADO Cookie Fixer is a small helper I made after running into Azure DevOps sign-i
 ## What it does
 
 - Clears cookies for the Azure DevOps and Microsoft sign-in sites you select.
-- Redirects the active tab to your chosen URL after clearing cookies.
+- Optionally redirects the active tab to your chosen login URL after clearing cookies.
 - Shows a confirmation before clearing by default.
 - Displays the number of cookies cleared on the extension icon.
 
@@ -16,7 +16,7 @@ ADO Cookie Fixer is a small helper I made after running into Azure DevOps sign-i
 1. Install [ADO Cookie Fixer from the Chrome Web Store](https://chromewebstore.google.com/detail/ado-cookie-fixer/cfohbkmhdgdonlcokhehldhnepimlpgo).
 2. On first install, set the URL to open after cookies are cleared and choose the sites to include.
 3. Click the extension icon when you are caught in a sign-in or logout loop.
-4. Confirm clearing the selected cookies. You can turn off the confirmation in the extension settings.
+4. Confirm clearing the selected cookies. You can turn off the confirmation or redirect in the extension settings.
 
 ![Extension settings](settings.png)
 

@@ -15,6 +15,11 @@ async function getTargetUrl() {
   return targetUrl;
 }
 
+async function shouldRedirectToLogin() {
+  const { redirectToLogin = true } = await chrome.storage.sync.get("redirectToLogin");
+  return redirectToLogin;
+}
+
 async function hasSavedTargetUrl() {
   const { targetUrl } = await chrome.storage.sync.get("targetUrl");
   return typeof targetUrl === "string" && targetUrl.length > 0;
@@ -77,7 +82,9 @@ async function clearCookies(tab) {
   await chrome.action.setBadgeBackgroundColor({ color: "#107c10", tabId: tab.id });
   console.info(`Cleared ${clearedCount} Azure DevOps/Microsoft cookies.`);
 
-  await chrome.tabs.update(tab.id, { url: await getTargetUrl() });
+  if (await shouldRedirectToLogin()) {
+    await chrome.tabs.update(tab.id, { url: await getTargetUrl() });
+  }
 }
 
 function createContextMenu() {
