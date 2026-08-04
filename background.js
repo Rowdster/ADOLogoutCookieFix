@@ -9,6 +9,7 @@ const COOKIE_SITES = [
 
 const DEFAULT_TARGET_URL = "https://dev.azure.com/";
 const DEFAULT_COOKIE_DOMAINS = COOKIE_SITES.map(({ domain }) => domain);
+const CLEAR_NOTIFICATION_ID = "cookies-cleared";
 
 async function getTargetUrl() {
   const { targetUrl = DEFAULT_TARGET_URL } = await chrome.storage.sync.get("targetUrl");
@@ -81,6 +82,12 @@ async function clearCookies(tab) {
   await chrome.action.setBadgeText({ text: badgeText, tabId: tab.id });
   await chrome.action.setBadgeBackgroundColor({ color: "#107c10", tabId: tab.id });
   console.info(`Cleared ${clearedCount} Azure DevOps/Microsoft cookies.`);
+  await chrome.notifications.create(CLEAR_NOTIFICATION_ID, {
+    type: "basic",
+    iconUrl: "storeicon.png",
+    title: "ADO Cookie Fixer",
+    message: `Cleared ${clearedCount} ${clearedCount === 1 ? "cookie" : "cookies"}.`
+  });
 
   if (await shouldRedirectToLogin()) {
     await chrome.tabs.update(tab.id, { url: await getTargetUrl() });

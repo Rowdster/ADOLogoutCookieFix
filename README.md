@@ -10,6 +10,7 @@ ADO Cookie Fixer is a small helper I made after running into Azure DevOps sign-i
 - Optionally redirects the active tab to your chosen login URL after clearing cookies.
 - Shows a confirmation before clearing by default.
 - Displays the number of cookies cleared on the extension icon.
+- Shows a notification when cookie clearing is complete.
 
 ## Install and use
 
