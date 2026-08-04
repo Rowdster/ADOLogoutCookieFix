@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ADO Cookie Fixer Settings</title>
+    <style>
+      body {
+        color: #1f1f1f;
+        font: 16px "Segoe UI", sans-serif;
+        margin: 32px;
+        max-width: 640px;
+      }
+
+      label, input, button { display: block; }
+      input { box-sizing: border-box; margin: 8px 0 16px; padding: 8px; width: 100%; }
+      button { background: #0078d4; border: 0; color: #fff; cursor: pointer; padding: 9px 16px; }
+      fieldset { border: 1px solid #8a8886; margin: 0 0 20px; padding: 12px 16px; }
+      .site-option { align-items: center; display: flex; gap: 8px; margin: 8px 0; }
+      .site-option input { margin: 0; padding: 0; width: auto; }
+      #status { min-height: 1.25em; margin-top: 12px; }
+    </style>
+  </head>
+  <body>
+    <h1>ADO Cookie Fixer Settings</h1>
+    <form id="settings-form">
+      <label for="target-url">Redirect URL after cookies are cleared</label>
+      <input id="target-url" name="target-url" type="url" required>
+      <fieldset>
+        <legend>Sites whose cookies to clear</legend>
+        <label class="site-option"><input type="checkbox" name="cookie-domain" value="visualstudio.com"> visualstudio.com</label>
+        <label class="site-option"><input type="checkbox" name="cookie-domain" value="dev.azure.com"> dev.azure.com</label>
+        <label class="site-option"><input type="checkbox" name="cookie-domain" value="microsoftonline.com"> microsoftonline.com</label>
+        <label class="site-option"><input type="checkbox" name="cookie-domain" value="msauth.net"> msauth.net</label>
+        <label class="site-option"><input type="checkbox" name="cookie-domain" value="msftauth.net"> msftauth.net</label>
+        <label class="site-option"><input type="checkbox" name="cookie-domain" value="login.live.com"> login.live.com</label>
+      </fieldset>
+      <label class="site-option"><input id="confirm-before-clearing" type="checkbox"> Confirm before clearing</label>
+      <button type="submit">Save</button>
+    </form>
+    <p id="status" role="status"></p>
+    <script src="options.js"></script>
+  </body>
+</html>

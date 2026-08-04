@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Clear ADO Cookies</title>
+    <style>
+      body { color: #1f1f1f; font: 14px "Segoe UI", sans-serif; margin: 16px; min-width: 260px; }
+      p { margin: 0 0 16px; }
+      .actions { display: flex; gap: 8px; justify-content: flex-end; }
+      button { border: 0; cursor: pointer; padding: 8px 12px; }
+      #confirm { background: #0078d4; color: #fff; }
+    </style>
+  </head>
+  <body>
+    <p id="message">Clear the selected Azure DevOps and Microsoft cookies?</p>
+    <div class="actions">
+      <button id="cancel" type="button">Cancel</button>
+      <button id="confirm" type="button">Clear cookies</button>
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>
