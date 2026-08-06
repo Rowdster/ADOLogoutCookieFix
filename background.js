@@ -35,18 +35,14 @@ async function getSelectedCookieSites() {
 async function clearCookies(tab) {
   if (!(await hasSavedTargetUrl())) {
     await chrome.runtime.openOptionsPage();
-    return;
+    return { status: "setup-required", message: "Set a target URL in Settings before clearing cookies." };
   }
 
   const selectedSites = await getSelectedCookieSites();
   const cookieOrigins = selectedSites.map(({ origin }) => origin);
   const hasCookieAccess = await chrome.permissions.contains({ origins: cookieOrigins });
   if (!hasCookieAccess) {
-    const granted = await chrome.permissions.request({ origins: cookieOrigins });
-    if (!granted) {
-      console.info("Cookie access was not granted.");
-      return;
-    }
+    return { status: "permission-denied", message: "Cookie access was not granted." };
   }
 
   let clearedCount = 0;
@@ -92,6 +88,8 @@ async function clearCookies(tab) {
   if (await shouldRedirectToLogin()) {
     await chrome.tabs.update(tab.id, { url: await getTargetUrl() });
   }
+
+  return { status: "cleared", clearedCount: clearedCount };
 }
 
 function createContextMenu() {
@@ -119,10 +117,27 @@ chrome.contextMenus.onClicked.addListener(({ menuItemId }) => {
   }
 });
 
-chrome.runtime.onMessage.addListener((message, sender) => {
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message?.type === "get-cookie-origins") {
+    getSelectedCookieSites()
+      .then((sites) => sendResponse({ origins: sites.map(({ origin }) => origin) }))
+      .catch((error) => {
+        console.error("Unable to get cookie sites:", error);
+        sendResponse({ origins: [] });
+      });
+    return true;
+  }
+
   if (message?.type !== "clear-cookies" || !Number.isInteger(message.tabId)) {
     return;
   }
 
-  chrome.tabs.get(message.tabId).then(clearCookies);
+  chrome.tabs.get(message.tabId)
+    .then(clearCookies)
+    .then(sendResponse)
+    .catch((error) => {
+      console.error("Unable to clear cookies:", error);
+      sendResponse({ status: "error", message: "Unable to clear cookies." });
+    });
+  return true;
 });
